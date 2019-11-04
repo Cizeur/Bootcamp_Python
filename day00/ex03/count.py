@@ -4,8 +4,8 @@ from collections import Counter
 
 
 def text_analyzer(text=""):
-    """    This function counts the number of upper characters, lower characters,
-    punctuation and spaces in a given text."""
+    "\tThis function counts the number of upper characters, lower characters,"
+    "\tpunctuation and spaces in a given text."
     if text:
         c = Counter("upper" if x.isupper() else "lower" if x.islower()
                     else "space" if x.isspace()

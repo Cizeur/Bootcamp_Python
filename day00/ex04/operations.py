@@ -5,11 +5,13 @@ usage = """Usage: python operations.py
 Example:
     python operations.py 10 3"""
 
+
 def error_usage(error):
     if error:
-        print (error)
-    print (usage)
+        print(error)
+    print(usage)
     exit(1)
+
 
 args = sys.argv
 args.pop(0)
