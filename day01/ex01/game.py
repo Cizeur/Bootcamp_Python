@@ -6,6 +6,7 @@ class GotCharacter:
             raise Exception("Need a name")
         self.first_name = first_name
 
+
 class Stark(GotCharacter):
     """A class representing the Stark family. \
 Or when bad things happen to good people."""
