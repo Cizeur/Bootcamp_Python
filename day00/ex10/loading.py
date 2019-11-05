@@ -26,13 +26,3 @@ def ft_progress(mylist: list):
                   end="")
             yield val
         print("")
-
-
-if __name__ == "__main__":
-    listy = range(100)
-    ret = 0
-    for elem in ft_progress(listy):
-        ret += (elem + 3) % 5
-        sleep(0.01)
-    print()
-    print(ret)
