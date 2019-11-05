@@ -1,10 +1,10 @@
 class Vector:
-    
+
     def __init__(self, val=[]):
         if not val:
             raise Exception("Please give non empty initialisation values")
         if isinstance(val, list):
-            try: 
+            try:
                 self.values = list(map(float, val))
             except Exception:
                 raise Exception("List elems should be convertible to float")
@@ -12,7 +12,7 @@ class Vector:
             self.values = list(map(float, range(val)))
         elif isinstance(val, tuple):
             assert len(val) == 2, "Invalid tuple size should be 2 ints"
-            try: 
+            try:
                 self.values = list(map(float, range(val[0], val[1])))
             except Exception:
                 raise Exception("Invalid tuple not made of 2 int")
@@ -48,10 +48,10 @@ class Vector:
             return scal_prod
         else:
             raise Exception("Unmanaged operation for this type")
-    
+
     def __rmul__(self, val):
         return self.__mul__(val)
-    
+
     def __sub__(self, val):
         if isinstance(val, int):
             val = float(val)
@@ -84,7 +84,7 @@ class Vector:
             return Vector([x / div for x in self.values])
         else:
             raise Exception("Unmanaged operation for this type")
-    
+
     def __rtruediv__(self, div):
         if isinstance(div, int):
             div = float(div)
@@ -97,12 +97,12 @@ class Vector:
             raise Exception("Unmanaged operation for this type")
 
     def __str__(self):
-        return ("Vector [" 
-               + ", ".join(list(map(str, self.values))) 
-               + "] of size : " + str(self.size))
-    
+        return ("Vector ["
+                + ", ".join(list(map(str, self.values)))
+                + "] of size : " + str(self.size))
+
     def __repr__(self):
-        return ("< Instance of Vector class: [" 
-                + ", ".join(list(map(str, self.values))) 
-                + "]{" + str(self.size) 
-                + "} >" )
+        return ("< Instance of Vector class: ["
+                + ", ".join(list(map(str, self.values)))
+                + "]{" + str(self.size)
+                + "} >")
