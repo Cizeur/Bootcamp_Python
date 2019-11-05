@@ -16,9 +16,11 @@ try:
     size = int(args[1])
 except ValueError:
     error()
-output = "".join([" " if x in string.punctuation
-                 else x for x in args[0]]).split()
-output = [x for x in output if len(x) > size]
-if not len(output):
+try:
+    test = int(args[0])
     error()
-print(output)
+except ValueError:
+    output = "".join([" " if x in string.punctuation
+                    else x for x in args[0]]).split()
+    output = [x for x in output if len(x) > size]
+    print(output)
