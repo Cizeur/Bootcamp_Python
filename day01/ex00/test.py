@@ -1,0 +1,21 @@
+from book import Book
+from recipe import Recipe
+
+salad = Recipe("salad",  2, 10, ["Salad", "Cheese", "Vinaigrette"], "Starter")
+tourte = Recipe("tourte", 5, 50, ["bacon", "potatoes", "nuggets"], "lunch")
+eclair = Recipe("eclair", 4, 110, ["butter", "chocolat", "flour"], "Dessert")
+granola = Recipe("granola", 1, 5, ["grain", "pressure"], "Dessert")
+to_print = str(tourte)
+print(to_print)
+cookbook = Book("Legend")
+cookbook.add_recipe(salad)
+cookbook.add_recipe(tourte)
+cookbook.add_recipe(eclair)
+cookbook.add_recipe(granola)
+test = cookbook.get_recipe_by_types("dessert")
+print(test)
+cookbook.remove_recipe_by_name("granola")
+test = cookbook.get_recipe_by_types("dessert")
+print(test)
+test = cookbook.get_recipe_by_name("eclair")
+print(test)
