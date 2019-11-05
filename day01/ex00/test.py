@@ -1,5 +1,6 @@
 from book import Book
 from recipe import Recipe
+from time import sleep
 
 salad = Recipe("salad",  2, 10, ["Salad", "Cheese", "Vinaigrette"], "Starter")
 tourte = Recipe("tourte", 5, 50, ["bacon", "potatoes", "nuggets"], "lunch")
@@ -8,14 +9,19 @@ granola = Recipe("granola", 1, 5, ["grain", "pressure"], "Dessert")
 to_print = str(tourte)
 print(to_print)
 cookbook = Book("Legend")
+print(cookbook.creation_date)
 cookbook.add_recipe(salad)
 cookbook.add_recipe(tourte)
 cookbook.add_recipe(eclair)
 cookbook.add_recipe(granola)
 test = cookbook.get_recipe_by_types("dessert")
 print(test)
+sleep(10)
+print(cookbook.last_update)
 cookbook.remove_recipe_by_name("granola")
+print(cookbook.last_update)
 test = cookbook.get_recipe_by_types("dessert")
 print(test)
 test = cookbook.get_recipe_by_name("eclair")
+print(cookbook.last_update)
 print(test)
