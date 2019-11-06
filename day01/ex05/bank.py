@@ -23,6 +23,8 @@ class Bank():
 
     def get_account_by_id(self, account_id):
         for account in self.account:
+            if not isinstance(account, Account):
+                continue
             if not hasattr(account, "id"):
                 self.fix_account(account)
             if account.id == account_id:
@@ -32,6 +34,8 @@ class Bank():
     def get_account_by_name(self, account_name):
         counter = 0
         for account in self.account:
+            if not isinstance(account, Account):
+                continue
             if not hasattr(account, "name"):
                 self.fix_account(account)
             if account.name == account_name:
@@ -42,18 +46,8 @@ class Bank():
         return None
 
     def transfer(self, origin, dest, amount):
-        if isinstance(origin, str):
-            origin = self.get_account_by_name(origin)
-        elif isinstance(origin, int):
-            origin = self.get_account_by_id(origin)
-        else:
-            return False
-        if isinstance(dest, str):
-            dest = self.get_account_by_name(dest)
-        elif isinstance(dest, int):
-            dest = self.get_account_by_id(dest)
-        else:
-            return False
+        origin = self.fix_account(origin)
+        dest = self.fix_account(dest)
         if not origin or not dest:
             return False
         if isinstance(amount, int):
@@ -67,10 +61,20 @@ class Bank():
         return True
 
     def fix_account(self, account):
+        if isinstance(account, int):
+            account = self.get_account_by_id(account)
+        elif isinstance(account, str):
+            account = self.get_account_by_name(account)
+        elif isinstance(account, Account):
+            pass
+        else:
+            return None
+        if not account:
+            return None
         if not hasattr(account, "id"):
             setattr(account, "id", Account.ID_COUNT)
             Account.ID_COUNT += 1
-        att = [a for a in dir(account) if not callable(getattr(account, a))]
+        att = [a for a in account.__dict__]
         to_rem = [key for key in att if key.startswith("b")]
         for elm in to_rem:
             delattr(account, elm)
@@ -82,6 +86,13 @@ class Bank():
             setattr(account, "name", "Unknown " + str(account.id))
         if "value" not in att:
             setattr(account, "value", 0)
+        att = [a for a in account.__dict__]
+        if not len(att) % 2:
+            if not hasattr(account, "padding"):
+                setattr(account, "padding", "for future use")
+            else:
+                delattr(account, "padding")
+        return account
 
     def __repr__(self):
         string = "< Bank class : "
@@ -111,8 +122,11 @@ if __name__ == '__main__':
     print(ac2.__dict__)
     bank.fix_account(ac2)
     print(ac2.__dict__)
+    ac2.test = 4
+    bank.fix_account(ac2)
+    print(ac2.__dict__)
     ac2.value = 10000
     print(ac1.id)
-    if bank.transfer("remy", "billy", 10):
+    if bank.transfer(3, 4, 0):
         print("Success")
     print(bank)
