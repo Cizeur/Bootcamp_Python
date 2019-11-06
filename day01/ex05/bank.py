@@ -74,7 +74,7 @@ class Bank():
         if not hasattr(account, "id"):
             setattr(account, "id", Account.ID_COUNT)
             Account.ID_COUNT += 1
-        att = [a for a in account.__dict__]
+        att = [a for a in account.__dict__ if "_" not in a]
         to_rem = [key for key in att if key.startswith("b")]
         for elm in to_rem:
             delattr(account, elm)
@@ -86,7 +86,7 @@ class Bank():
             setattr(account, "name", "Unknown " + str(account.id))
         if "value" not in att:
             setattr(account, "value", 0)
-        att = [a for a in account.__dict__]
+        att = [a for a in account.__dict__ if "_" not in a]
         if not len(att) % 2:
             if not hasattr(account, "padding"):
                 setattr(account, "padding", "for future use")
@@ -122,7 +122,8 @@ if __name__ == '__main__':
     print(ac2.__dict__)
     bank.fix_account(ac2)
     print(ac2.__dict__)
-    ac2.test = 4
+    ac2._test = 4
+    ac2._wat = 8
     bank.fix_account(ac2)
     print(ac2.__dict__)
     ac2.value = 10000
