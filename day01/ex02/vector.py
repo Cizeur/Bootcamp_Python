@@ -31,10 +31,19 @@ class Vector:
             zipped = list(zip(self.values, val.values))
             return Vector([x[0] + x[1] for x in zipped])
         else:
-            raise Exception("Unmanaged operation for this type")
+            return val.__radd__(self)
 
     def __radd__(self, val):
-        return self.__add__(val)
+        if isinstance(val, int):
+            val = float(val)
+        if isinstance(val, float):
+            return Vector([x + val for x in self.values])
+        elif isinstance(val, Vector):
+            assert val.size == self.size, "Vector should have the same size"
+            zipped = list(zip(self.values, val.values))
+            return Vector([x[0] + x[1] for x in zipped])
+        else:
+            raise Exception("Unmanaged operation for this type")
 
     def __mul__(self, val):
         if isinstance(val, int):
@@ -47,10 +56,20 @@ class Vector:
             scal_prod = sum([x[0] * x[1] for x in zipped])
             return scal_prod
         else:
-            raise Exception("Unmanaged operation for this type")
+            return val.__rmul__(self)
 
     def __rmul__(self, val):
-        return self.__mul__(val)
+        if isinstance(val, int):
+            val = float(val)
+        if isinstance(val, float):
+            return Vector([x * val for x in self.values])
+        elif isinstance(val, Vector):
+            assert val.size == self.size, "Vector should have the same size"
+            zipped = list(zip(self.values, val.values))
+            scal_prod = sum([x[0] * x[1] for x in zipped])
+            return scal_prod
+        else:
+            raise Exception("Unmanaged operation for this type")
 
     def __sub__(self, val):
         if isinstance(val, int):
@@ -62,7 +81,7 @@ class Vector:
             zipped = list(zip(self.values, val.values))
             return Vector([x[0] - x[1] for x in zipped])
         else:
-            raise Exception("Unmanaged operation for this type")
+            return val.__rsub__(self)
 
     def __rsub__(self, val):
         if isinstance(val, int):
@@ -83,7 +102,7 @@ class Vector:
             assert div, "Invalid division by zero"
             return Vector([x / div for x in self.values])
         else:
-            raise Exception("Unmanaged operation for this type")
+            return val.__rtruediv__(self)
 
     def __rtruediv__(self, div):
         if isinstance(div, int):
