@@ -22,6 +22,7 @@ class Bank():
         self.account.append(account)
 
     def get_account_by_id(self, account_id):
+        counter = 0
         for account in self.account:
             if not isinstance(account, Account):
                 continue
@@ -29,7 +30,10 @@ class Bank():
                 self.fix_account(account)
                 continue
             if account.id == account_id:
-                return account
+                counter += 1
+                output = account
+        if counter == 1:
+            return output
         return None
 
     def get_account_by_name(self, account_name):
@@ -132,6 +136,6 @@ if __name__ == '__main__':
     print(ac2.__dict__)
     ac2.value = 10000
     print(ac1.id)
-    if bank.transfer(3, 4, 0):
+    if bank.transfer(3, 4, 80):
         print("Success")
     print(bank)
