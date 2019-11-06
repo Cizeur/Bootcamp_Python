@@ -27,17 +27,21 @@ class Bank():
                 continue
             if not hasattr(account, "id"):
                 self.fix_account(account)
+                continue
             if account.id == account_id:
                 return account
         return None
 
     def get_account_by_name(self, account_name):
         counter = 0
+        if account_name == "UNKNOWN":
+            return None
         for account in self.account:
             if not isinstance(account, Account):
                 continue
             if not hasattr(account, "name"):
                 self.fix_account(account)
+                continue
             if account.name == account_name:
                 counter += 1
                 output = account
@@ -83,7 +87,7 @@ class Bank():
         if not any(key.startswith("addr") for key in att):
             setattr(account, "addr", "There")
         if "name" not in att:
-            setattr(account, "name", "Unknown " + str(account.id))
+            setattr(account, "name", "UNKNOWN" + str(account.id))
         if "value" not in att:
             setattr(account, "value", 0)
         att = [a for a in account.__dict__ if "_" not in a]
