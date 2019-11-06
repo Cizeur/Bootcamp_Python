@@ -1,6 +1,5 @@
 from time import sleep
 import time
-import sys
 
 
 def ft_progress(mylist: list):
