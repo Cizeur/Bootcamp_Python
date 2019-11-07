@@ -1,48 +1,47 @@
 class ColorFilter:
 
     def invert(self, array):
-        array[:,:,:] = 1- array[:,:,:]
+        array[:, :, :] = 1 - array[:, :, :]
         return array
-    
+
     def to_blue(self, array):
-        array[:,:,:2] = np.zeros((*array.shape[0:2], 2))
-        return  array
+        array[:, :, :2] = np.zeros((*array.shape[0:2], 2))
+        return array
 
     def to_green(self, array):
-        array[:,:,[0,2]] = array[:,:,[0,2]] * 0
-        return  array
+        array[:, :, [0, 2]] = array[:, :, [0, 2]] * 0
+        return array
 
     def to_red(self, array):
         green = self.to_green(np.copy(array))
         blue = self.to_blue(np.copy(array))
-        array[:,:,:] = array - green - blue
-        return  array
+        array[:, :, :] = array - green - blue
+        return array
 
-    def celluloid(self, array, threshold = 4):
-        test = np.linspace(0.0, 1.0, threshold + 1)
-        a = 0.0
-        for i in test:
-            array[:,:,:] = (np.where((array > a) & (array < i) , a , array))
-            a = i
-        return  array
+    def celluloid(self, array, threshold=4):
+        array[:, :, :] = array * threshold
+        array[:, :, :] = array.astype(int)
+        array[:, :, :] = array.astype(float)
+        array[:, :, :] = array / threshold
+        return array
 
-    def to_grayscale(self, array, filter = "mean"):
-        assert filter in ["w", "weighted"] or filter in ["m", "mean"], "invalid filter"
+    def to_grayscale(self, array, filter="mean"):
+        assert filter in ["w", "weighted"] or filter in [
+            "m", "mean"], "invalid filter"
         if filter in ["m", "mean"]:
-            temp = np.sum(array, axis = 2)/3
-            temp = temp[:,:,None]
+            temp = np.sum(array, axis=2)/3
+            temp = temp[:, :, None]
             temp = np.broadcast_to(temp, (*temp.shape[:-1], 3))
-            array[:,:,:] = temp
+            array[:, :, :] = temp
         elif filter in ["w", "weighted"]:
-            array[:,:,0] = array[:,:,0] * 0.299
-            array[:,:,1] = array[:,:,1] * 0.587
-            array[:,:,2] = array[:,:,2] * 0.114
-            temp = np.sum(array, axis = 2)
-            temp = temp[:,:,None]
-            temp = np.tile(temp, (1,1,3))
-            array[:,:,:] = temp
+            array[:, :, 0] = array[:, :, 0] * 0.299
+            array[:, :, 1] = array[:, :, 1] * 0.587
+            array[:, :, 2] = array[:, :, 2] * 0.114
+            temp = np.sum(array, axis=2)
+            temp = temp[:, :, None]
+            temp = np.tile(temp, (1, 1, 3))
+            array[:, :, :] = temp
         return (array)
-
 
 
 if __name__ == "__main__":
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     columns = 4
     rows = 2
     size = (columns, rows)
-    fig=plt.figure(figsize=size)
+    fig = plt.figure(figsize=size)
     imp = ImageProcessor()
     arr = imp.load("../rainbow.png")
     sc = ColorFilter()
@@ -81,7 +80,7 @@ if __name__ == "__main__":
     plt.axis('off')
     plt.imshow(c)
     c = np.copy(arr)
-    sc.celluloid(c, 6)
+    sc.celluloid(c, 4)
     fig.add_subplot(rows, columns, 6)
     plt.axis('off')
     plt.imshow(c)
