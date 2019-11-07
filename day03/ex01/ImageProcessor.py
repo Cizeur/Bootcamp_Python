@@ -9,6 +9,7 @@ class ImageProcessor():
         arr = mpimg.imread(path)
         print("Loading image of dimensions {} x {}".format(
             (*(arr.shape[0:2]))))
+        arr = arr[:,:,:3]
         return arr
 
     def display(self, array):
@@ -18,6 +19,6 @@ class ImageProcessor():
 
 if __name__ == "__main__":
     imp = ImageProcessor()
-    arr = imp.load("./42AI.png")
+    arr = imp.load("../42AI.png")
     print(arr)
     imp.display(arr)

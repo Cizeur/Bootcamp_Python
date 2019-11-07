@@ -4,7 +4,9 @@ class ScrapBooker():
     def crop(self, array, dimensions, position = (0,0)):
         assert dimensions[0] <= array.shape[0], "Crop height bigger than image"
         assert dimensions[1] <= array.shape[1], "Crop width bigger than image"
-        assert dimensions[0] >= 0 or dimensions[1] >= 0, "Dimensions need to be positive"
+        assert position[0] >= 0 and position[0] + dimensions[0] <= array.shape[0], "Crop out of image"
+        assert position[1] >= 0 and position[1] + dimensions[1] <= array.shape[1], "Crop out of image"
+        assert dimensions[0] >= 0 or dimensions[1] >= 0, "Negative dimension unsupported"
         return array[position[0]: dimensions[0] + position[0],
         position[1]: dimensions[1] + position[1]]
 
@@ -27,12 +29,12 @@ if __name__ == "__main__":
     rows = 2
     fig=plt.figure(figsize=(4, 2))
     imp = ImageProcessor()
-    arr = imp.load("./42AI.png")
+    arr = imp.load("../42AI.png")
     sc = ScrapBooker()
     fig.add_subplot(rows, columns, 1)
     plt.imshow(arr)
     fig.add_subplot(rows, columns, 2)
-    c = sc.crop(arr, (100, 100), (30,30))
+    c = sc.crop(arr, (100, 100), (110,30))
     print (c.shape)
     plt.imshow(c)
     fig.add_subplot(rows, columns, 3)
