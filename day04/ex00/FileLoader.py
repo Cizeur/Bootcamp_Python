@@ -8,7 +8,7 @@ class FileLoader():
             data = pandas.read_csv(path)
             print("Loading dataset of dimensions {} x {}".format(*data.shape))
             return(data)
-        except:
+        except Exception:
             raise Exception("Invalid File")
         return None
 
