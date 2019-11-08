@@ -5,14 +5,14 @@ class SpatioTemporalData():
 
     def where(self, year):
         df = self._data
-        df = df.drop(df[df.Year != year ].index)
-        df.drop_duplicates(subset ="City", inplace = True)
+        df = df.drop(df[df.Year != year].index)
+        df.drop_duplicates(subset="City", inplace=True)
         return (df["City"].tolist())
 
     def when(self, location):
         df = self._data
-        df = df.drop(df[df["City"] != location ].index)
-        df.drop_duplicates(subset ="Year", inplace = True)
+        df = df.drop(df[df["City"] != location].index)
+        df.drop_duplicates(subset="Year", inplace=True)
         return (df["Year"].tolist())
 
 
