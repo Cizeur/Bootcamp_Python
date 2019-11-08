@@ -23,10 +23,15 @@ fi
 
 if [ "$1" = "install-packages" ] ; then 
 
+	python -V
 	if command -v  conda > /dev/null 2>&1; then
 		echo "installing packages"
-		conda install conda-build jupyter pycodestyle;
+		conda install conda-build jupyter pip;
 		conda update --all
+		pip install pycodestyle;
+		pip install numpy
+		pip install matplotlib
+		pip install pandas
 	else
 		echo "conda missing."
 	fi
